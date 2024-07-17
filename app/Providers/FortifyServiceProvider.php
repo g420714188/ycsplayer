@@ -32,7 +32,7 @@ class FortifyServiceProvider extends ServiceProvider
         {
             public function toResponse($request)
             {
-                return redirect()->route('login');
+                return redirect()->route('rooms.home');
             }
         });
     }

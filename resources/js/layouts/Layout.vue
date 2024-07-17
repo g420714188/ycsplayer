@@ -7,10 +7,10 @@
       <div class="px-4 py-2.5 flex justify-between items-center flex-col bg-blue-950/50 rounded-lg md:flex-row lg:px-6">
         <div class="w-full flex justify-between items-center md:w-auto">
           <Link v-if="user" href="/rooms" class="font-bold tracking-wide">
-            ycsPlayer
+            Online Player
           </Link>
           <a v-else href="/" class="font-bold tracking-wide">
-            ycsPlayer
+            Online Player
           </a>
 
           <button
@@ -49,7 +49,7 @@
           <template v-else>
             <Menu v-slot="{ close }" as="div" class="relative z-10">
               <MenuButton class="w-full flex items-center -my-0.5 max-w-[160px]">
-                <Avatar class="w-9 h-9 mr-2" :src="user.avatar" />
+                <Avatar class="w-9 h-9 mr-2" :src="user.avatar" :gender="user.gender" />
                 <div class="tracking-wide whitespace-nowrap truncate min-w-0">
                   {{ user.name }}
                 </div>

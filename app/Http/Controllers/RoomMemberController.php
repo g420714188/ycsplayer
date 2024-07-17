@@ -8,11 +8,33 @@ use App\Models\User;
 use App\Presenters\RoomMemberPresenter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\ValidationException;
 
 class RoomMemberController extends Controller
 {
+    public function joinByInviteCode(Request $request, Room $room)
+    {
+        /** @var \App\Models\User */
+        $user = Auth::user();
+
+        if ($room->isMember($user)) {
+            return redirect()->route('rooms.show', $room);
+        }
+        $invite_code = $request->input('invite_code');
+        if(! $room->checkInviteCode($invite_code)){
+            Flash::error('邀请码错误');
+            return;
+        }
+
+        $room->join($user);
+
+        Flash::success('加入房間成功');
+
+        return redirect()->route('rooms.show', $room);
+    }
+
     public function join(Room $room)
     {
         /** @var \App\Models\User */

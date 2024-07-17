@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('type', 10);
             $table->string('name', 20);
+            $table->string('invite_code', 8)->default('');
             $table->unsignedBigInteger('current_playing_id')->nullable();
             $table->boolean('auto_play')->default(false);
             $table->boolean('auto_remove')->default(false);
+            $table->boolean('is_locked')->default(false);
             $table->text('note')->nullable();
             $table->timestamps();
         });

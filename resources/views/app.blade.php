@@ -6,9 +6,9 @@
 
     @inertiaHead
 
-    <meta name="description" content="線上影音點播包廂">
-    <meta property="og:title" content="ycsPlayer">
-    <meta property="og:description" content="線上影音點播包廂">
+    <meta name="description" content="线上影音点播">
+    <meta property="og:title" content="Online Player">
+    <meta property="og:description" content="线上影音点播">
     <meta property="og:image" content="{{ config('app.url') }}/og-20231027.png">
     <meta name="twitter:card" content="summary_large_image">
 

@@ -6,7 +6,8 @@ export enum RoomType {
 export interface Room {
   id: string
   type: RoomType
-  name: string
+  name: string,
+  invite_code: string,
   auto_play: boolean
   auto_remove: boolean
   debug?: boolean

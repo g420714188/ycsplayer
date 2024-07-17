@@ -35,6 +35,7 @@ class CreateNewUser implements CreatesNewUsers
         return User::create(array_merge([
             'name' => $input['name'],
             'email' => $input['email'],
+            'gender' => $input['gender'],
         ], config('ycsplayer.password_less') ? [
             'password' => Str::random(16),
         ] : [

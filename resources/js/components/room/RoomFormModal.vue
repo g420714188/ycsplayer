@@ -13,10 +13,10 @@
         <div class="space-y-6">
           <TextInput id="name" v-model="form.name" label="房間名稱" />
           <RoomTypeSelectField id="type" v-model="form.type" />
+          <TextInput id="invite_code" v-model="form.invite_code" label="加入码" />
           <SwitchField id="auto_play" v-model="form.auto_play" label="連續播放" />
           <SwitchField id="auto_remove" v-model="form.auto_remove" label="播放完畢自動刪除" />
         </div>
-
         <div class="mt-6">
           <button type="submit" class="btn btn-primary" :disabled="form.processing">
             保存
@@ -42,7 +42,7 @@ const form = useForm({
 watch(() => form.type, () => {
   if (form.type === RoomType.Video) {
     form.auto_play = false
-    form.auto_remove = true
+    form.auto_remove = false
   } else if (form.type === RoomType.Audio) {
     form.auto_play = true
     form.auto_remove = false

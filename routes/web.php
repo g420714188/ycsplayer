@@ -11,6 +11,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'home')->middleware('guest')->name('home');
+Route::view('/home', [RoomController::class, 'home'])->name('rooms.home');
 
 Route::middleware([
     'auth',
@@ -34,10 +35,11 @@ Route::middleware([
     Route::delete('/rooms/{room}/playlist/{item}', [RoomPlaylistController::class, 'destroy'])->name('rooms.playlist.destroy');
     Route::post('/rooms/{room}/next', [RoomPlaylistController::class, 'next'])->name('rooms.playlist.next');
 
-    Route::get('/rooms/{room}/join', [RoomMemberController::class, 'join'])
-        ->middleware('signed')->name('rooms.join');
+    Route::get('/rooms/{room}/join', [RoomMemberController::class, 'join'])->middleware('signed')->name('rooms.join');
     Route::post('/rooms/{room}/generate-join-link', [RoomMemberController::class, 'generateJoinLink'])->name('rooms.generate-join-link');
     Route::post('/rooms/{room}/invite', [RoomMemberController::class, 'invite'])->name('rooms.invite');
+    Route::post('/rooms/{room}/joinByInviteCode', [RoomMemberController::class, 'joinByInviteCode'])->name('rooms.join-by-invite-code');
+
     Route::post('/rooms/{room}/search-member', [RoomMemberController::class, 'searchMember'])->name('rooms.member.search');
     Route::patch('/rooms/{room}/members/{member}/role', [RoomMemberController::class, 'role'])->name('rooms.member.role');
     Route::delete('/rooms/{room}/members/{member}', [RoomMemberController::class, 'destroy'])->name('rooms.member.destroy');

@@ -11,10 +11,13 @@ class RoomPresenter extends FlexiblePresenter
 {
     public function values(): array
     {
+        $owner = $this->owner()->first();
         return [
             'id' => $this->hash_id,
             'type' => $this->type->value,
             'name' => $this->name,
+            'owner_name' => $owner->name,
+            'gender' => $owner->gender
         ];
     }
 

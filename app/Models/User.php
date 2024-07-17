@@ -19,6 +19,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property int $id
  * @property string $name
  * @property string $email
+ * @property string $gender
  * @property \Illuminate\Support\Carbon $email_verified_at
  * @property string $password
  * @property string|null $avatar
@@ -47,6 +48,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'avatar',
+        'gender'
     ];
 
     /**
@@ -67,6 +69,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'gender' => 'integer',
     ];
 
     protected static function booted(): void

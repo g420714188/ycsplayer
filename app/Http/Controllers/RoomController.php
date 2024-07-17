@@ -11,13 +11,41 @@ use App\Presenters\PlaylistItemPresenter;
 use App\Presenters\RoomMemberPresenter;
 use App\Presenters\RoomPresenter;
 use App\Room\RoomNoteEditorCacheRepository;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules\Enum;
 use Inertia\Inertia;
 
 class RoomController extends Controller
 {
+    /**
+     * 主頁，不受登錄限制
+     * @return \Inertia\Response
+     */
+    public function home()
+    {
+        /** @var \App\Models\User */
+        $user = Auth::user();
+
+        Log::info("User Info ",[$user]);
+
+        /** @var \Illuminate\Pagination\LengthAwarePaginator */
+        $rooms = Room::query()->paginate(5);
+
+        return Inertia::render('Room/Home', [
+            'rooms' => RoomPresenter::collection($rooms->withQueryString()),
+            'can' => fn () => [
+                'create' => is_null($user)?false:$user->can('create', Room::class),
+            ],
+        ])->title('主頁');
+    }
+
+    /**
+     * 我的房間，包括我加入的的房間
+     * @return \Inertia\Response
+     */
     public function index()
     {
         /** @var \App\Models\User */
@@ -41,6 +69,8 @@ class RoomController extends Controller
         /** @var \App\Models\User */
         $user = Auth::user();
 
+        $request->request->add(['member_id' => $user->id]);
+
         $request->validate([
             'name' => ['required', 'string', 'max:20'],
             'type' => [new Enum(RoomType::class)],
@@ -49,7 +79,7 @@ class RoomController extends Controller
         ]);
 
         /** @var \App\Models\Room */
-        $room = Room::create($request->only('name', 'type', 'auto_play', 'auto_remove'));
+        $room = Room::create($request->only('member_id', 'name', 'type','invite_code', 'auto_play', 'auto_remove'));
 
         $room->join($user, 'admin');
 
@@ -60,14 +90,23 @@ class RoomController extends Controller
 
     public function show(Room $room, RoomNoteEditorCacheRepository $noteEditor)
     {
-        $this->authorize('view', $room);
+        try{
+            $this->authorize('view', $room);
+        }catch (AuthorizationException $exception){
+            return Inertia::render('Room/Join',[
+                'room'=> ['id'=>$room->hash_id,'name'=>$room->name],
+                'code' =>'401',
+                'message' => '没权限'
+            ]);
+        }
+
 
         /** @var \App\Models\User */
         $user = Auth::user();
 
         $noteEditor->resetWhenCurrentEditingUserRefreshPage(
             $room->hash_id, $user->hash_id,
-            fn () => RoomNoteCanceled::broadcast($room->hash_id)->toOthers(),
+            fn () => RoomNoteCanceled::broadcast($room->hash_id)->toOthers()
         );
 
         return Inertia::render('Room/Show', [

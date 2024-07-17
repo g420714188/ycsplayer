@@ -37,6 +37,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 
         $user->name = $input['name'];
         $user->email = $input['email'];
+        $user->gender = $input['gender'];
 
         if (! config('ycsplayer.password_less') && $input['password']) {
             $user->password = $input['password'];

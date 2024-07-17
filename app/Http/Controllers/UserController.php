@@ -32,6 +32,7 @@ class UserController extends Controller
                 'id' => $user->hash_id,
                 'name' => $user->name,
                 'email' => $user->email,
+                'gender' => $user->gender,
                 'avatar' => $user->avatar_url,
             ],
             'passwordLess' => config('ycsplayer.password_less'),
@@ -123,6 +124,6 @@ class UserController extends Controller
 
         Flash::success('帳號刪除成功');
 
-        return redirect()->route('login');
+        return redirect()->route('rooms.home');
     }
 }

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -23,6 +24,8 @@ use Spatie\Permission\PermissionRegistrar;
  * @property int $id
  * @property \App\Enums\RoomType $type
  * @property string $name
+ * @property int $member_id
+ * @property int invite_code
  * @property int|null $current_playing_id
  * @property bool $auto_play
  * @property bool $auto_remove
@@ -41,11 +44,14 @@ class Room extends Model implements HasMedia
     use InteractsWithMedia;
 
     protected $fillable = [
+        'member_id',
         'type',
         'name',
         'current_playing_id',
         'auto_play',
         'auto_remove',
+        'invite_code',
+        'is_locked',
         'debug',
         'note',
     ];
@@ -56,6 +62,7 @@ class Room extends Model implements HasMedia
         'auto_play' => 'boolean',
         'auto_remove' => 'boolean',
         'debug' => 'boolean',
+        'is_locked' => 'boolean',
     ];
 
     public function roomPermissions(): array
@@ -105,6 +112,7 @@ class Room extends Model implements HasMedia
     protected static function booted(): void
     {
         static::created(function (Room $room) {
+
             app(PermissionRegistrar::class)->forgetCachedPermissions();
 
             $room->attachRoomPermissions();
@@ -139,6 +147,11 @@ class Room extends Model implements HasMedia
         }
     }
 
+    public function owner()
+    {
+        return $this->hasOne(User::class,"id","member_id");
+    }
+
     public function members(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'room_member', 'room_id', 'member_id');
@@ -152,7 +165,6 @@ class Room extends Model implements HasMedia
             ->filter(fn (User $member) => $member->id !== $user->id)
             ->map(function (User $member) {
                 $member->online = app(RoomOnlineMembersCacheRepository::class)->has($this->hash_id, $member->hash_id);
-
                 return $member;
             })
             ->prepend(tap($user, fn (User $user) => $user->online = true))
@@ -198,9 +210,22 @@ class Room extends Model implements HasMedia
 
     public function isMember(User $user): bool
     {
-        return $this->members()
+        return //true;
+        $this->members()
             ->where('id', $user->id)
             ->exists();
+    }
+
+    public function checkInviteCode(string $code): bool
+    {
+        $invite_code = $this->invite_code;
+
+        Log::INFO($invite_code);
+        Log::INFO($code);
+        if(is_null($code) || strcmp($code,$invite_code) != 0){
+            return false;
+        }
+        return true;
     }
 
     public function doesntMember(User $user): bool

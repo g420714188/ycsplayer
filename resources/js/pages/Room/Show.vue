@@ -34,7 +34,6 @@
           <PlayerDebugger v-if="room.debug" />
         </div>
       </div>
-
       <div class="grow min-h-0 flex flex-col gap-y-[--layout-gap] md:col-span-4 lg:col-span-3">
         <!-- 導覽列 -->
         <RoomTabs

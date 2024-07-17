@@ -27,6 +27,10 @@
 
       <div v-else class="py-32 flex justify-center items-center bg-blue-950/50 text-center text-lg rounded-lg">
         現在還沒有加入房間喔！<br>趕快加入跟朋友一起看影片、聽音樂吧~
+
+        <Link :href="`/home`" class="block p-4 bg-blue-950/50 hover:bg-blue-900/50 rounded-lg transition-colors lg:p-6">
+          影音大廳看看
+        </Link>
       </div>
 
       <Pagination :collection="rooms" class="mt-4" />
