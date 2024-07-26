@@ -1,6 +1,7 @@
 <?php
 
 use App\Broadcasting\Http\Controllers\PusherWebhookController;
+use App\Http\Controllers\PurchOrderController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomMediaController;
 use App\Http\Controllers\RoomMemberController;
@@ -8,10 +9,11 @@ use App\Http\Controllers\RoomNoteController;
 use App\Http\Controllers\RoomPlaylistController;
 use App\Http\Controllers\RoomUploadMediaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserVipController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'home')->middleware('guest')->name('home');
-Route::view('/home', [RoomController::class, 'home'])->name('rooms.home');
+Route::get('/home', [RoomController::class, 'home'])->name('rooms.home');
 
 Route::middleware([
     'auth',
@@ -49,11 +51,21 @@ Route::middleware([
 
     Route::post('/rooms/{room}/upload', RoomUploadMediaController::class)->name('rooms.medias.upload');
 
+    Route::get('/user', [UserController::class, 'index'])->name('user.index');
     Route::get('/user/settings', [UserController::class, 'show'])->name('user.settings');
     Route::post('/user/avatar', [UserController::class, 'uploadAvatar'])->name('user.avatar.store');
     Route::delete('/user/avatar', [UserController::class, 'removeAvatar'])->name('user.avatar.destroy');
     Route::get('/user/destroy/confirm', [UserController::class, 'confirmDestroy'])->name('user.destroy.confirm');
-    Route::delete('/user', [UserController::class, 'destroy'])->name('user.destroy');
+//    Route::delete('/user', [UserController::class, 'destroy'])->name('user.destroy');
+
+    Route::get('/user/vip', [UserVipController::class, 'index'])->name('user.vip');
+    Route::get('/user/vip/purch', [UserVipController::class, 'purch'])->name('user.vip.purch');
+
+    Route::get('/orders', [PurchOrderController::class, 'index'])->name('order.index');
+
 });
 
 Route::post('/pusher/webhook', PusherWebhookController::class);
+Route::get('/pay/return', [UserVipController::class, 'callback_return']);
+Route::get('/pay/notify', [UserVipController::class, 'callback_notify']);
+

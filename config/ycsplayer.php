@@ -23,7 +23,7 @@ return [
    |
    */
 
-    'open_room_limit' => env('YCSPLAYER_ROOM_LIMIT', 3),
+    'open_room_limit' => env('YCSPLAYER_ROOM_LIMIT', 1),
 
     /*
     |--------------------------------------------------------------------------
@@ -61,4 +61,41 @@ return [
 
     'password_less' => env('YCSPLAYER_PASSWORD_LESS', false),
 
+    /*
+    |--------------------------------------------------------------------------
+    | vip price
+    |--------------------------------------------------------------------------
+    |
+    |
+    |
+    |
+    |
+    */
+    'vip_1' => env('YCSPLAYER_VIP_1',12.99),
+    'vip_2' => env('YCSPLAYER_VIP_2',29.99),
+    'vip_3' => env('YCSPLAYER_VIP_3',19.99),
+
+    /*
+    |--------------------------------------------------------------------------
+    |
+    |--------------------------------------------------------------------------
+    |
+    |
+    |
+    |
+    |
+    */
+    'room_limit' => env('YCSPLAYER_ROOM_LIMIT',1),
+    'vip_room_limit' => env('YCSPLAYER_VIP_ROOM_LIMIT',5),
+    'svip_room_limit' => env('YCSPLAYER_SVIP_ROOM_LIMIT',-1),
+
+    /*
+     |--------------------------------------------------------------------------
+     | room join limit
+     |--------------------------------------------------------------------------
+     |
+     */
+    'room_join_limit' => env('YCSPLAYER_ROOM_LIMIT',1),
+    'vip_room_join_limit' => env('YCSPLAYER_VIP_ROOM_LIMIT',10),
+    'svip_room_join_limit' => env('YCSPLAYER_SVIP_ROOM_LIMIT',-1),
 ];

@@ -196,6 +196,7 @@ yarn build
 以上就是部署專案的流程，之後更新原始碼之後都要執行以下指令來更新專案：
 
 ```bash
+php artisan make:controller PurchOrderController 创建控制类
 composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 php artisan config:cache
 php artisan route:cache

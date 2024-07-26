@@ -43,7 +43,6 @@
           :can-settings="can.settings"
           class="shrink-0"
         />
-
         <div class="grow min-h-0 flex flex-col gap-y-[--layout-gap] overflow-y-auto">
           <!-- 首頁分頁 -->
           <template v-if="tab === 'main'">
@@ -109,7 +108,6 @@
         </div>
       </div>
     </div>
-
     <!-- 手機底部播放清單按鈕層 -->
     <div class="md:hidden">
       <div

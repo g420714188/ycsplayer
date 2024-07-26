@@ -1,16 +1,7 @@
 <template>
   <div v-if="!progress">
-    <Field
-      :label="label"
-      :error="error"
-      :tip="tip"
-      :class="wrapperClass"
-    >
-      <button
-        ref="browseFilesBtnRef"
-        type="button"
-        :class="buttonClass"
-      >
+    <Field :label="label" :error="error" :tip="tip" :class="wrapperClass">
+      <button ref="browseFilesBtnRef" type="button" :class="buttonClass">
         <HeroiconsCloudArrowUp class="mr-1" />上傳檔案
       </button>
     </Field>
@@ -20,10 +11,7 @@
     <slot name="progressing" :progress-per="progressPer">
       <div class="text-center">上傳中... </div>
       <div class="mt-4 h-2 bg-blue-900/50 rounded-full overflow-hidden">
-        <div
-          class="bg-blue-500/50 h-full transition-[width] duration-500"
-          :style="{ width: `${progressPer}%` }"
-        />
+        <div class="bg-blue-500/50 h-full transition-[width] duration-500" :style="{ width: `${progressPer}%` }"/>
       </div>
     </slot>
   </div>
@@ -68,7 +56,7 @@ onMounted(() => {
     chunkSize: 5 * 1024 * 1024, // 5M
     testChunks: false,
     simultaneousUploads: 1, // 同時上傳數量只能設 1，設 2 以上 PHP 會發生錯誤。
-    permanentErrors: [400, 404, 409, 415, 422, 500, 501], // 增加 422 Code，當驗證錯誤時不需要報錯誤訊息。
+    permanentErrors: [400, 404, 409, 415, 422,423, 500, 501], // 增加 422 Code，當驗證錯誤時不需要報錯誤訊息。
   })
 
   resumable.assignBrowse(browseFilesBtnRef.value, false)
@@ -98,7 +86,6 @@ onMounted(() => {
 
   resumable.on('fileError', (file, response) => {
     progress.value = false
-
     try {
       const data = JSON.parse(response)
       emit('error', data.message)

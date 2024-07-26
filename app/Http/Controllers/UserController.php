@@ -7,6 +7,7 @@ use App\PasswordlessLogin\DestroyUserUrl;
 use App\PasswordlessLogin\Notifications\SendPasswordlessDestroyUserLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\File;
 use Inertia\Inertia;
@@ -22,6 +23,35 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * 用户中心
+     * @return \Inertia\Response
+     */
+    public function index()
+    {
+        /** @var \App\Models\User */
+        $user = Auth::user();
+        Log::info($user);
+
+        Log::info("进入用户中心页面",[$user->id,$user->name]);
+
+        return Inertia::render('User/Index', [
+            'user' => [
+                'id' => $user->hash_id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'gender' => $user->gender,
+                'vip_type' => $user->vip_type,
+                'vip_end_time' => $user->vip_end_time,
+                'avatar' => $user->avatar_url,
+            ],
+            'passwordLess' => config('ycsplayer.password_less'),
+            'can' => [
+                'uploadAvatar' => config('ycsplayer.upload_avatar'),
+            ],
+        ])->title('用户中心');
+    }
+
     public function show()
     {
         /** @var \App\Models\User */
@@ -33,6 +63,8 @@ class UserController extends Controller
                 'name' => $user->name,
                 'email' => $user->email,
                 'gender' => $user->gender,
+                'vip_type' => $user->vip_type,
+                'vip_end_time' => $user->vip_end_time,
                 'avatar' => $user->avatar_url,
             ],
             'passwordLess' => config('ycsplayer.password_less'),
@@ -99,6 +131,8 @@ class UserController extends Controller
         /** @var \App\Models\User */
         $user = Auth::user();
 
+        Log::info("用户注销账号",[$user->id,$user->name]);
+
         // 無密碼模式下，要寄送刪除帳號連結的信件
         if (config('ycsplayer.password_less')) {
             $url = DestroyUserUrl::forUser($user)->generate();
@@ -117,7 +151,7 @@ class UserController extends Controller
 
         Auth::logout();
 
-        $user->delete();
+        $user->update(['status' => 0,updated_at=>now()]);
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();

@@ -126,26 +126,27 @@ class RoomMemberController extends Controller
         /** @var \App\Models\User */
         $user = Auth::user();
 
+        //
+
         if ($user->is($member)) {
-            if ($user->getRoleNames()->contains("rooms.{$room->id}.admin")) {
+//            if ($user->getRoleNames()->contains("rooms.{$room->id}.admin")) {
+            if($user->id == $room->member_id){
                 ValidationException::withMessages([
-                    'leave_room' => '管理員不可以離開房間，可以將管理員轉交給其他成員，或者直接刪除房間。',
+                    'leave_room' => '房間拥有者不可以離開房間，可直接刪除房間。',
                 ]);
             }
 
+            //離開房間
             $room->leave($member);
-
             Flash::success('離開房間成功');
 
             return redirect()->route('rooms.index');
-        }
-
-        $this->authorize('removeMember', $room);
-
-        if ($room->isMember($member)) {
-            $room->leave($member);
-
-            Flash::success('用戶退出房間成功');
+        }else{
+            $this->authorize('removeMember', $room);
+            if ($room->isMember($member)) {
+                $room->leave($member);
+                Flash::success('用戶退出房間成功');
+            }
         }
     }
 }

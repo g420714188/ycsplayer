@@ -18,8 +18,8 @@
 
 <script setup lang="ts">
 defineOptions({
-  layout: false,
-  inheritAttrs: false,
+  // layout: true,
+  // inheritAttrs: false,
 })
 
 defineProps<{

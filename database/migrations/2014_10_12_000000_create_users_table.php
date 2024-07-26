@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('password');
             $table->string('avatar')->nullable();
             $table->integer("gender")->default(0);
+            $table->string("vip_type")->default(0);
+            $table->timestamp("vip_end_time")->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

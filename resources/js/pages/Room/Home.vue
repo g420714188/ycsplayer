@@ -59,7 +59,6 @@ defineProps<{
 
 const { user: authUser } = useAuth()
 
-
 useFullPage(true, {
   baseClass: 'min-full-page',
   scroll: true,

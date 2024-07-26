@@ -39,6 +39,8 @@ class HandleInertiaRequests extends Middleware
                     'id' => $request->user()->hash_id,
                     'name' => $request->user()->name,
                     'gender' =>$request->user()->gender,
+                    'vip_type' =>$request->user()->vip_type,
+                    'vip_end_time' =>$request->user()->vip_end_time,
                     'email' => $request->user()->email,
                     'avatar' => $request->user()->avatar_url,
                 ] : null,

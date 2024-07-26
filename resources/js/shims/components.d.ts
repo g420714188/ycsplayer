@@ -12,6 +12,7 @@ declare module 'vue' {
     Card: typeof import('./../components/cards/Card.vue')['default']
     CardAuth: typeof import('./../components/cards/CardAuth.vue')['default']
     CropImageModal: typeof import('./../components/modals/CropImageModal.vue')['default']
+    Dialog: typeof import('@headlessui/vue')['Dialog']
     Field: typeof import('./../components/form/Field.vue')['default']
     FileUpload: typeof import('./../components/form/FileUpload.vue')['default']
     Footer: typeof import('./../components/application/Footer.vue')['default']
@@ -93,5 +94,7 @@ declare module 'vue' {
     TablerBrandYoutubeFilled: typeof import('~icons/tabler/brand-youtube-filled')['default']
     TextareaInput: typeof import('./../components/form/TextareaInput.vue')['default']
     TextInput: typeof import('./../components/form/TextInput.vue')['default']
+    TransitionChild: typeof import('@headlessui/vue')['TransitionChild']
+    TransitionRoot: typeof import('@headlessui/vue')['TransitionRoot']
   }
 }

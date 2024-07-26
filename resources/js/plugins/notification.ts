@@ -19,11 +19,14 @@ export function Notification() {
 
     if (page.props.flash?.success) {
       toast.success(page.props.flash.success)
+      delete page.props.flash.error
     }
 
     if (page.props.flash?.error) {
       toast.error(page.props.flash.error)
+      delete page.props.flash.error
     }
+
   }
 
   router.on('navigate', notify) // [初次載入] [切換頁面]

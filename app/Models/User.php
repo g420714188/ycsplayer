@@ -8,6 +8,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
@@ -25,6 +26,8 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string|null $avatar
  * @property-read string|null $avatar_url
  * @property string $remember_token
+ * @property string vip_type no:非vip，vip:会员，svip:超级会员。
+ * @property datatime vip_end_time
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon $updated_at
  * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Room> $rooms
@@ -48,7 +51,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'avatar',
-        'gender'
+        'gender',
+        'vip_type',
+        'vip_end_time'
     ];
 
     /**
@@ -70,6 +75,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'gender' => 'integer',
+        'vip_end_time' => 'datetime'
     ];
 
     protected static function booted(): void
@@ -97,6 +103,17 @@ class User extends Authenticatable implements MustVerifyEmail
     public function rooms(): BelongsToMany
     {
         return $this->belongsToMany(Room::class, 'room_member', 'member_id', 'room_id');
+    }
+
+    public function own_rooms():HasMany
+    {
+        return $this->hasMany(Room::class,"member_id","id");
+    }
+
+
+    public function orders(): HasMany
+    {
+        return $this->HasMany(PurchOrders::class, 'member_id', 'id');
     }
 
     public function hasVerifiedEmail()

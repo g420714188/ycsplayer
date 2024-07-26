@@ -1,7 +1,7 @@
 <template>
   <div class="relative h-full px-[--layout-gap] pb-[--layout-gap] lg:px-[--layout-gap-lg] lg:pb-[--layout-gap-lg]">
     <div class="flex justify-between items-center">
-      <h1 class="text-2xl">房間列表</h1>
+      <h1 class="text-2xl">我的房間列表</h1>
       <div>
         <button
           v-if="can.create"

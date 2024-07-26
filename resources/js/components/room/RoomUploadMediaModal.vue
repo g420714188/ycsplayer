@@ -1,9 +1,5 @@
 <template>
-  <Modal
-    v-model="show"
-    title="上傳檔案"
-    max-width-class="max-w-[560px] w-full"
-  >
+  <Modal v-model="show" title="上傳檔案" max-width-class="max-w-[560px] w-full">
     <template #icon>
       <HeroiconsCloudArrowUp class="mr-1" />
     </template>

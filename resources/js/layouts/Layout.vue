@@ -6,10 +6,10 @@
     <header class="p-[--layout-gap] lg:p-[--layout-gap-lg]">
       <div class="px-4 py-2.5 flex justify-between items-center flex-col bg-blue-950/50 rounded-lg md:flex-row lg:px-6">
         <div class="w-full flex justify-between items-center md:w-auto">
-          <Link v-if="user" href="/rooms" class="font-bold tracking-wide">
+          <Link v-if="user" href="/home" class="font-bold tracking-wide">
             Online Player
           </Link>
-          <a v-else href="/" class="font-bold tracking-wide">
+          <a v-else href="/home" class="font-bold tracking-wide">
             Online Player
           </a>
 
@@ -109,7 +109,6 @@
                 {{ user.name }}
               </div>
             </Link>
-
             <component
               :is="item.is ?? 'Link'"
               v-for="item in userMenu"
@@ -144,12 +143,16 @@ const showMenu = ref(false)
 
 const userMenu = [
   {
-    href: '/rooms',
-    label: '房間列表',
+    href: '/home',
+    label: '點播大廳',
   },
   {
-    href: '/user/settings',
-    label: '帳號設定',
+    href: '/rooms',
+    label: '我的房間列表',
+  },
+  {
+    href: '/user',
+    label: '帳號信息',
   },
   {
     href: '/logout',

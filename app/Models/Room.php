@@ -26,6 +26,8 @@ use Spatie\Permission\PermissionRegistrar;
  * @property string $name
  * @property int $member_id
  * @property int invite_code
+ * @property int limit_type
+ * @property int limit_number
  * @property int|null $current_playing_id
  * @property bool $auto_play
  * @property bool $auto_remove
@@ -52,9 +54,12 @@ class Room extends Model implements HasMedia
         'auto_remove',
         'invite_code',
         'is_locked',
+        'limit_type',
+        'limit_number',
         'debug',
         'note',
     ];
+
 
     protected $casts = [
         'type' => RoomType::class,
@@ -63,6 +68,8 @@ class Room extends Model implements HasMedia
         'auto_remove' => 'boolean',
         'debug' => 'boolean',
         'is_locked' => 'boolean',
+        'limit_type' => 'integer',
+        'limit_number' => 'integer'
     ];
 
     public function roomPermissions(): array

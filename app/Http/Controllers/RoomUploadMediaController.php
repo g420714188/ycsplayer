@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\ChunkUpload\UploadHandler;
 use App\Events\RoomMediaUploaded;
+use App\Exceptions\CustomException;
 use App\Jobs\AddRoomMediaFile;
 use App\Models\Room;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator as ValidatorFactory;
 use Illuminate\Validation\Rules\File;
 use Illuminate\Validation\ValidationException;
@@ -19,6 +21,19 @@ class RoomUploadMediaController extends Controller
     public function __invoke(Request $request, Room $room)
     {
         $this->authorize('uploadMedias', $room);
+
+        /** @var \App\Models\User */
+        $user = Auth::user();
+
+        $count = $room->playlistItems()->count();
+
+        //普通用户一个房间最多可以上传
+        if(strcmp($user->vip_type,'no') && $count!=0){
+            throw new CustomException(423,"房间音视频数量到达上限");
+        }
+        if(strcmp($user->vip_type,'vip') && $count >=10){
+            throw new CustomException(423,"房间音视频数量到达上限");
+        }
 
         $receiver = new FileReceiver('file', $request, UploadHandler::class);
 
