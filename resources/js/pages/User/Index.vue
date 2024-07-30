@@ -9,7 +9,6 @@
       </button>
     </div>
     <div class="w-full flex px-[--layout-gap] pb-[--layout-gap] lg:px-[--layout-gap-lg] lg:pb-[--layout-gap-lg]">
-      {{VITE_PUSHER_APP_CLUSTER}}
       <div class="hidden lg:block inset-0 left-[max(0px,calc(50%-45rem))] right-auto w-[12rem] pb-10 pl-8 pr-6 overflow-y-auto">
         <nav id="nav" class="lg:text-sm lg:leading-6 relative">
           <ul>

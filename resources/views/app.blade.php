@@ -9,7 +9,6 @@
     <meta name="description" content="线上影音点播">
     <meta property="og:title" content="Online Player">
     <meta property="og:description" content="线上影音点播">
-    <meta property="og:image" content="{{ config('app.url') }}/og-20231027.png">
     <meta name="twitter:card" content="summary_large_image">
 
     @vite('resources/js/app.ts')

@@ -159,7 +159,11 @@ class RoomController extends Controller
             $member_count = $room->members->count();
 
             if( $member_count >=2 ){
-                Flash::success('房间人数已达到上限.');
+                Flash::success('房間人數已達到上限.');
+                return ;
+            }
+            if( $room->is_locked ){
+                Flash::success('房間已鎖定不允許進入.');
                 return ;
             }
 
@@ -227,5 +231,21 @@ class RoomController extends Controller
         Flash::success('房間刪除成功');
 
         return redirect()->route('rooms.index');
+    }
+
+    /**
+     * 鎖定/解鎖房间
+     * @param Room $room
+     * @throws AuthorizationException
+     */
+    public function lock(Room $room)
+    {
+        $this->authorize('lock', $room);
+
+        $is_locked = $room->is_locked;
+
+        $room->update(['is_locked' => !$is_locked]);
+
+        Flash::success('房間'+($is_locked?'鎖定':'解鎖')+'完成');
     }
 }

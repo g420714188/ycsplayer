@@ -18,3 +18,4 @@ yarn-error.log
 remark.md
 /.fleet
 /.idea
+/public/static/

@@ -24,9 +24,11 @@ use Spatie\Permission\PermissionRegistrar;
  * @property int $id
  * @property \App\Enums\RoomType $type
  * @property string $name
+ * @property string $room_cover
  * @property int $member_id
  * @property int invite_code
  * @property int limit_type
+ * @property int is_locked
  * @property int limit_number
  * @property int|null $current_playing_id
  * @property bool $auto_play
@@ -49,6 +51,7 @@ class Room extends Model implements HasMedia
         'member_id',
         'type',
         'name',
+        'room_cover',
         'current_playing_id',
         'auto_play',
         'auto_remove',

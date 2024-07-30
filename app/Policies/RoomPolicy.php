@@ -55,9 +55,9 @@ class RoomPolicy
 
     public function changeMemberRole(User $user, Room $room)
     {
-        if($user->id == $room->member_id) {
-            return true; // $user->can("rooms.{$room->id}.change-member-role");
-        }
+//        if($user->id == $room->member_id) {
+//            return true; // $user->can("rooms.{$room->id}.change-member-role");
+//        }
         return false;
     }
 
@@ -86,6 +86,14 @@ class RoomPolicy
     }
 
     public function delete(User $user, Room $room): bool
+    {
+        if($user->id == $room->member_id) {
+            return true; // $user->can("rooms.{$room->id}.delete");
+        }
+        return false;
+    }
+
+    public function lock(User $user, Room $room): bool
     {
         if($user->id == $room->member_id) {
             return true; // $user->can("rooms.{$room->id}.delete");

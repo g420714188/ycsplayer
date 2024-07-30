@@ -18,9 +18,13 @@
     <div class="mt-4">
       <div v-if="rooms.data.length" class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
         <div v-for="room in rooms.data" :key="room.id">
-          <Link :href="`/rooms/${room.id}`" class="block p-4 bg-blue-950/50 hover:bg-blue-900/50 rounded-lg transition-colors lg:p-6">
-            <RoomLogo :room="room" class="w-9 h-9 mb-2" />
-            <h5 class="text-xl">{{ room.name }}</h5>
+          <Link :href="`/rooms/${room.id}`" class="block p-4 bg-blue-950/50 hover:bg-blue-900/50 rounded-lg transition-colors lg:p-5">
+            <img :src="room.room_cover" class="w-40 max-w-[100%] lg:w-full shrink-0 rounded-lg aspect-video object-cover">
+            <span class="text-l">{{ room.name }}</span>
+            <div  class="flex -space-x-2 overflow-hidden mt-1">
+              <img :src="defaultMan" class="inline-block h-8 w-8 rounded-full">
+              <img :src="defaultWomen" class="inline-block h-8 w-8 rounded-full">
+            </div>
           </Link>
         </div>
       </div>
@@ -48,6 +52,11 @@
 <script setup lang="ts">
 import type { Room } from '@/types'
 
+import roomBg from '@/images/room_bg.png';
+
+import defaultMan from '@/images/man.svg';
+import defaultWomen from '@/images/women.svg';
+
 defineOptions({ inheritAttrs: false })
 
 defineProps<{
@@ -64,3 +73,12 @@ useFullPage(true, {
 
 const showRoomModal = ref(false)
 </script>
+<style>
+.bgimg{
+  width: 100%;
+  height: 100%;
+  /*以下两种路径方式都可以*/
+  background-image: url('../../images/room_bg.png');
+  background-size: cover
+}
+</style>
