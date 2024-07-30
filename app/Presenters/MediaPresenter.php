@@ -4,7 +4,6 @@ namespace App\Presenters;
 
 use AdditionApps\FlexiblePresenter\FlexiblePresenter;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-
 /**
  * @mixin \Spatie\MediaLibrary\MediaCollections\Models\Media
  */

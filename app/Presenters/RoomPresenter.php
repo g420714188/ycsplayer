@@ -17,16 +17,16 @@ class RoomPresenter extends FlexiblePresenter
         $members = $this->members;
 
         $join_member_avatars = $members->map(function (User $member) {
-            return is_null($member->avatar)?'':$member->avatar;
+            return ['gender'=>$member->gender,'avatar'=>is_null($member->avatar)?'':$member->avatar];
         });
 
-        Log::info($join_member_avatars);
         return [
             'id' => $this->hash_id,
             'type' => $this->type->value,
             'name' => $this->name,
             'room_cover' => $this->room_cover,
             'owner_name' => $owner->alias,
+            'join_members' =>$join_member_avatars,
             'gender' => $owner->gender
         ];
     }

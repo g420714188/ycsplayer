@@ -89,12 +89,12 @@
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="h-4 w-4 text-blue-gray-900">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path>
                         </svg>
-                        <p class="block antialiased font-sans text-sm leading-normal font-normal text-inherit">有限串场，每日最多加入3个开放的房间。</p>
+                        <p class="block antialiased font-sans text-sm leading-normal font-normal text-inherit">最多加入5个开放的房间。</p>
                       </li>
                       <li class="flex items-center gap-3 text-gray-700"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="h-4 w-4 text-blue-gray-900">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path>
                       </svg>
-                        <p class="block antialiased font-sans text-sm leading-normal font-normal text-inherit">可创建3个私人房间。</p>
+                        <p class="block antialiased font-sans text-sm leading-normal font-normal text-inherit">可创建5个房间。</p>
                       </li>
                       <li class="flex items-center gap-3 text-gray-700"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="h-4 w-4 text-blue-gray-900">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path>
@@ -116,12 +116,12 @@
                       <li class="flex items-center gap-3 text-gray-700"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="h-4 w-4 text-blue-gray-900">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path>
                       </svg>
-                        <p class="block antialiased font-sans text-sm leading-normal font-normal text-inherit">有限串场，每日最多加入3个开放的房间。</p>
+                        <p class="block antialiased font-sans text-sm leading-normal font-normal text-inherit">最多加入5个开放的房间。</p>
                       </li>
                       <li class="flex items-center gap-3 text-gray-700"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="h-4 w-4 text-blue-gray-900">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path>
                       </svg>
-                        <p class="block antialiased font-sans text-sm leading-normal font-normal text-inherit">可创建3个私人房间。</p>
+                        <p class="block antialiased font-sans text-sm leading-normal font-normal text-inherit">可创建5个房间。</p>
                       </li>
                       <li class="flex items-center gap-3 text-gray-700"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="h-4 w-4 text-blue-gray-900">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path>
@@ -143,12 +143,12 @@
                       <li class="flex items-center gap-3 text-gray-700"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="h-4 w-4 text-blue-gray-900">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path>
                       </svg>
-                        <p class="block antialiased font-sans text-sm leading-normal font-normal text-inherit">每日无限串场，可任意加入开放的房间。</p>
+                        <p class="block antialiased font-sans text-sm leading-normal font-normal text-inherit">可任意加入开放的房间。</p>
                       </li>
                       <li class="flex items-center gap-3 text-gray-700"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="h-4 w-4 text-blue-gray-900">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path>
                       </svg>
-                        <p class="block antialiased font-sans text-sm leading-normal font-normal text-inherit">可创建10个私人房间。</p>
+                        <p class="block antialiased font-sans text-sm leading-normal font-normal text-inherit">可创建10个房间。</p>
                       </li>
                       <li class="flex items-center gap-3 text-gray-700"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="h-4 w-4 text-blue-gray-900">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path>

@@ -33,5 +33,6 @@ const sizeClass = computed(() => {
   } else if (props.size === 'lg') {
     return 'px-3.5 py-0.5 text-sm'
   }
+  return ''
 })
 </script>

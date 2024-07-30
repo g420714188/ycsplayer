@@ -73,12 +73,3 @@ useFullPage(true, {
 
 const showRoomModal = ref(false)
 </script>
-<style>
-.bgimg{
-  width: 100%;
-  height: 100%;
-  /*以下两种路径方式都可以*/
-  background-image: url('../../images/room_bg.png');
-  background-size: cover
-}
-</style>

@@ -80,9 +80,9 @@ class UserVipController extends Controller
         /**************************请求参数**************************/
         require_once __DIR__."/../../Plugins/epay/lib/epay.config.php";
         require_once __DIR__."/../../Plugins/epay/lib/EpayCore.class.php";
-        $notify_url = "https://umii.cn//notify_url.php";
+        $notify_url = "https://player.ezfp.cn/pay/notify";
         ////页面跳转同步通知页面路径
-        $return_url = "https://umii.cn/SDK/return_url.php";
+        $return_url = "https://player.ezfp.cn/pay/return";
         //构造要请求的参数数组，无需改动
         $parameter = array(
             "pid" => $epay_config['pid'],
@@ -129,9 +129,7 @@ class UserVipController extends Controller
         $verify_result = $epay->verifyReturn();
 
         // 校验签名
-        if(1==2){
-//        if(!$verify_result) {
-        //签名错误
+        if(!$verify_result) {
 //            Flash::error('会员类型错误，请检查!');
 //            return "会员类型错误，请检查!";
             return Inertia::render('Error',[
@@ -161,6 +159,16 @@ class UserVipController extends Controller
                 'message' => '[交易校验错误]订单不存在!'
             ]);
         }
+
+        if($entity->trade_status == 1){
+            return Inertia::render('Error',[
+                'url'=>'',
+                'title'=>'返回首页',
+                'code' =>'500',
+                'message' => '[交易校验错误]订单已处理完成，请勿重复处理!'
+            ]);
+        }
+
         //判断交易状态
         if(strcmp($trade_status,'TRADE_SUCCESS') !== 0){
             // 交易错误更新订单状态
@@ -193,7 +201,6 @@ class UserVipController extends Controller
         if(is_null($vip_end_time)){
             $vip_end_time = now();
         }
-        $vip_end_time = date('Y-m-d H:i:s',strtotime("$vip_end_time +1 month"));
 
         $vip_type = 'no';
         if( $type == 1){
@@ -206,7 +213,7 @@ class UserVipController extends Controller
             $vip_end_time = date('Y-m-d H:i:s',strtotime("$vip_end_time +90 day"));
         }else if( $type == 3){
             $name = '尊享會員(會員有效期30天)';
-            $vip_type = 'vip';
+            $vip_type = 'svip';
             $vip_end_time = date('Y-m-d H:i:s',strtotime("$vip_end_time +30 day"));
         } else {
             return Inertia::render('Error',[
@@ -233,13 +240,86 @@ class UserVipController extends Controller
      */
     public function callback_notify(Request $request){
         /**************************请求参数**************************/
+        Log::info("交易回调返回数据",[$request->all()]);
+
         require_once __DIR__."/../../Plugins/epay/lib/epay.config.php";
         require_once __DIR__."/../../Plugins/epay/lib/EpayCore.class.php";
         //计算得出通知验证结果
         $epay = new EpayCore($epay_config);
         $verify_result = $epay->verifyReturn();
+
+        // 校验签名
         if(!$verify_result) {
-            return '签名校验错误!';
+//            Flash::error('会员类型错误，请检查!');
+//            return "会员类型错误，请检查!";
+            return '[交易校验错误]签名校验错误!';
         }
+
+        //签名正确获取各项参数
+        $return = $request->only('pid', 'trade_no', 'out_trade_no','money','trade_status');
+
+        //重点关注位置(订单编号转化)
+        $trade_no = $return['out_trade_no'];//本地系统订单编号
+        $out_trade_no = $return['trade_no'];//交易平台订单编号
+
+        $money = $return['money'];
+        $trade_status = $return['trade_status'];
+
+        $entity = PurchOrders::where('trade_no',$trade_no)->first();
+        if(is_null($entity)){
+            return '[交易校验错误]订单不存在!';
+        }
+        if($entity->trade_status == 1){
+            return '[交易校验错误]订单已处理完成，请勿重复处理!';
+        }
+
+        //判断交易状态
+        if(strcmp($trade_status,'TRADE_SUCCESS') !== 0){
+            // 交易错误更新订单状态
+            PurchOrders::where('trade_no',$trade_no)->update(
+                ['notify_at'=> now(),'out_trade_status'=>$trade_status,'trade_status'=>2]
+            );
+            return '[交易结果]订单支付未成功!';
+        }
+
+        //交易成功 进行会员授权
+        $member_id = $entity->member_id;
+        $type = $entity->type;
+
+        $user = User::where('id',$member_id)->first();
+        if(is_null($user)){
+            return '[交易校验错误]用户不存在!';
+        }
+        $vip_end_time = $user->vip_end_time;
+        if(is_null($vip_end_time)){
+            $vip_end_time = now();
+        }
+
+        $vip_type = 'no';
+        if( $type == 1){
+            $name = '普通會員(會員有效期30天)';
+            $vip_type = 'vip';
+            $vip_end_time = date('Y-m-d H:i:s',strtotime("$vip_end_time +30 day"));
+        }else if( $type == 2){
+            $name = '普通會員(會員有效期90天)';
+            $vip_type = 'vip';
+            $vip_end_time = date('Y-m-d H:i:s',strtotime("$vip_end_time +90 day"));
+        }else if( $type == 3){
+            $name = '尊享會員(會員有效期30天)';
+            $vip_type = 'svip';
+            $vip_end_time = date('Y-m-d H:i:s',strtotime("$vip_end_time +30 day"));
+        } else {
+            return '[交易校验错误]会员类型错误!';
+        }
+        DB::transaction(function () use($request,$member_id,$vip_type,$vip_end_time,$trade_no,$out_trade_no,$trade_status): void{
+            User::where('id',$member_id)->update(
+                ['vip_type'=> $vip_type,'vip_end_time'=>$vip_end_time]
+            );
+            PurchOrders::where('trade_no',$trade_no)->update(
+                ['notify_at'=> now(),'out_trade_status'=>$trade_status,'out_trade_no'=>$out_trade_no,'trade_status'=>1]
+            );
+        });
+
+        return 'SUCCESS';
     }
 }

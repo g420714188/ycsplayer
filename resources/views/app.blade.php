@@ -11,7 +11,7 @@
     <meta property="og:description" content="线上影音点播">
     <meta name="twitter:card" content="summary_large_image">
 
-    @vite('resources/js/app.ts')
+    @vite('resources/js/app.ts','static')
 </head>
 
 <body class="font-sans antialiased">
